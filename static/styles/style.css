@@ -1,0 +1,93 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  color: #424242;
+  font: 16px Montserrat;
+  margin: 0;
+  padding: 0;
+  background-image: url(../img/bak.jpg);
+  background-color: #c6c6c6;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: 0% 15%;
+  overflow: hidden;
+}
+
+.bak h2 {
+	font-family: Satisfy;
+	font-weight: 300;
+	position: absolute;
+	top: 20%;
+	left: 40%;
+	width: 100%;
+	font-size: 75px;
+	color: #fff;
+	text-shadow: 0px 0px 6px rgba(0,0,0,0.5);
+}
+
+.bak .span1 {
+	font-size: 18px;
+	color: #fff;
+	font-weight: 500;
+	position: absolute;
+	width: 30%;
+	top: 45%;
+	left: 35%;
+}
+
+.bak .inp1 {
+	position: absolute;
+	width: 30%;
+	top: 50%;
+	left: 35%;
+	background: transparent;
+	border: 0;
+	color: #fff;
+	font-size: 18px;
+	padding-left: 10px;
+	letter-spacing: 2px;
+	border-bottom: 2px solid white;
+}
+.bak .inp1:focus {
+	letter-spacing: 2px;
+	outline:none;
+}
+
+.bak .span2 {
+	font-size: 18px;
+	color: #fff;
+	font-weight: 500;
+	position: absolute;
+	width: 30%;
+	top: 58%;
+	left: 35%;
+}
+
+.bak .inp2 {
+	position: absolute;
+	width: 30%;
+	top: 63%;
+	left: 35%;
+	background: transparent;
+	border: 0;
+	color: #fff;
+	font-size: 16px;
+	padding-left: 10px;
+	letter-spacing: 5px;
+	border-bottom: 2px solid white;
+}
+.bak .inp2:focus {
+	outline:none;
+	letter-spacing: 5px;
+}
+
+.bak .inp3 {
+	position: absolute;
+	top: 73%;
+	left: 40%;
+	background: transparent;
+	border: 0;
+}
