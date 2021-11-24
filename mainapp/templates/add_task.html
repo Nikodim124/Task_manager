@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="form">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.management_form }}
+        {% for field in form %}
+            <div class="block modal_title_block">
+                <p class="label">Наименование услуги</p>
+                <br>
+                {{ field.id }}
+                {% if field.name.errors %}
+                    {{ field.name|add_class:"modal_task_form err" }}
+                {% else %}
+                    {{ field.name|add_class:"modal_task_form" }}
+                {% endif %}
+                <span class="delete"> Удалить
+                    {{ field.DELETE|add_class:"del_box" }}
+                </span>
+            </div>
+        {% endfor %}
+    <input type="submit" class="save_project" value="Сохранить">
+    </form>
+</div>
+{% endblock %}

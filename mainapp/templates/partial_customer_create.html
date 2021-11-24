@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="form">
+    <form action="" method="POST">
+    {% csrf_token %}
+        <div class="block modal_title_block">
+            <p class="label">Организация</p>
+            {% if form.name.errors %}
+                {{ form.name|add_class:"err" }}
+            {% else %}
+                {{ form.name }}
+            {% endif %}
+        </div>
+        <div class="block modal_title_block">
+            <p class="label">Директор</p>
+            {% if form.director.errors %}
+                {{ form.director|add_class:"err" }}
+            {% else %}
+                {{ form.director }}
+            {% endif %}
+        </div>
+        <div>
+            <div class="block modal_status_block">
+                <p class="label">Телефон</p>
+                <br>
+                {% if form.phone.errors %}
+                    {{ form.phone|add_class:"err" }}
+                {% else %}
+                    {{ form.phone }}
+                {% endif %}
+            </div>
+            <div class="block modal_customer_block">
+                <p class="label label-rigth">Email</p>
+                <br>
+                {% if form.email.errors %}
+                    {{ form.email|add_class:"err" }}
+                {% else %}
+                    {{ form.email }}
+                {% endif %}
+            </div>
+        </div>
+        <div>
+
+            <div class="block modal_status_block">
+                <p class="label">ИНН</p>
+                <br>
+                {% if form.inn.errors %}
+                    {{ form.inn|add_class:"err" }}
+                {% else %}
+                    {{ form.inn }}
+                {% endif %}
+            </div>
+            <div class="block modal_customer_block">
+                <p class="label label-rigth">КПП</p>
+                <br>
+                {% if form.kpp.errors %}
+                    {{ form.kpp|add_class:"err" }}
+                {% else %}
+                    {{ form.kpp }}
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <div class="block modal_status_block">
+                <p class="label">Рассчётный счёт</p>
+                <br>
+                {% if form.bill_acc.errors %}
+                    {{ form.bill_acc|add_class:"err" }}
+                {% else %}
+                    {{ form.bill_acc }}
+                {% endif %}
+            </div>
+            <div class="block modal_customer_block">
+                <p class="label label-rigth">БИК</p>
+                <br>
+                {% if form.bik.errors %}
+                    {{ form.bik|add_class:"err" }}
+                {% else %}
+                    {{ form.bik }}
+                {% endif %}
+            </div>
+        </div>
+        <input type="submit" class="save_project" value="Сохранить">
+    </form>
+</div>
+
+{% endblock %}

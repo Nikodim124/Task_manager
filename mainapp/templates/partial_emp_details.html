@@ -1,0 +1,24 @@
+<div class="emp_block">
+    <img src="{{ image.url }}" class="avatar" style="vertical-align:middle; margin-bottom: 0;">
+    <p class="emp_block emp_name"> {{ last_name }} {{ first_name }} {{ up_name }} </p>
+</div>
+<p class="emp_block emp_post"> {{ post }}</p>
+{% if dept == 'Проектирование' %}
+<hr class="he he1">
+{% elif dept == 'Дизайн' %}
+<hr class="he he2">
+{% elif dept == 'Разработка' %}
+<hr class="he he3">
+{% elif dept == 'Верстка' %}
+<hr class="he he4">
+{% elif dept == 'Согласование' %}
+<hr class="he he5">
+{% endif %}
+<div class="emp_block tel">
+    <p class="label">Телефон</p>
+    <p class="emp_block modal_side"> {{ phone }}</p>
+</div>
+<div class="emp_block mylo">
+    <p class="label">Email</p>
+    <p class="emp_block modal_side"> {{ email }}</p>
+</div>

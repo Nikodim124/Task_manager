@@ -1,0 +1,44 @@
+<div class="block modal_title_block">
+    <p id="modal_id" style="display: none"> {{ id }} </p>
+    <p class="label">Название</p>
+    <p class="modal_title"> {{ name }} </p>
+</div>
+<div class="block modal_status_block">
+    <p class="label">Директор</p>
+    <br>
+    <p class=" modal_status"> {{ director }}</p>
+</div>
+<div style="background-color: #fff;">
+    <div class="block modal_curator_block">
+        <p class="label">Телефон</p>
+        <p class="modal_side modal_curator"> {{ phone }}</p>
+    </div>
+    <div class="block modal_deadline_block">
+        <p class="label label-rigth">Email</p>
+        <br>
+        <p class="modal_side modal_deadline"> {{ email }}</p>
+    </div>
+</div>
+<div style="background-color: #fff;">
+    <div class="block modal_curator_block">
+        <p class="label">ИНН</p>
+        <p class="modal_side modal_curator"> {{ inn }}</p>
+    </div>
+    <div class="block modal_deadline_block">
+        <p class="label label-rigth">КПП</p>
+        <br>
+        <p class="modal_side modal_deadline"> {{ kpp }}</p>
+    </div>
+</div>
+<div style="background-color: #fff;">
+    <div class="block modal_curator_block">
+        <p class="label">Рассчётный счёт</p>
+        <p class="modal_side modal_curator"> {{ bill_acc }}</p>
+    </div>
+    <div class="block modal_deadline_block">
+        <p class="label label-rigth">БИК</p>
+        <br>
+        <p class="modal_side modal_deadline"> {{ bik }}</p>
+    </div>
+</div>
+<a href="{% url 'add_customer' %}?cust_id={{id}}" class="change">Изменить</a>

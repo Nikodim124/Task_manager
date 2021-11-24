@@ -1,0 +1,28 @@
+{% load tags %}
+
+{% for key,value in d.items %}
+<div class="container con{{ forloop.counter }}">
+	<div class="header"> {{ key }} </div>
+	<div class="count"> {{ value }} </div>
+	<hr class="he he{{ forloop.counter }}">
+	{% for el in all_projects|in_category:key %}
+		{% if el.deadline > today %}
+		<div class="draggable" data-url="{% url 'project_details' el.id %}" onclick="details(this)">
+			<p class="id"> {{ el.id }}</p>
+			<p class="d-title"> {{ el.name }} </p>
+			<div class="curator">
+				<img src="{{ el.curator.image.url }}">
+			</div>
+		</div>
+		{% else %}
+		<div class="draggable fast" data-url="{% url 'project_details' el.id %}" onclick="details(this)">
+			<p class="id"> {{ el.id }}</p>
+			<p class="d-title"> {{ el.name }} </p>
+			<div class="curator">
+				<img src="{{ el.curator.image.url }}">
+			</div>
+		</div>
+		{% endif %}
+	{% endfor %}
+</div>
+{% endfor %}

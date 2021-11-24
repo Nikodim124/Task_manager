@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for project in projects %}
+    {% if project.deadline > today %}
+		<div class="draggable my_project" data-url="{% url 'project_details' project.id %}" onclick="details(this)">
+            <p class="id"> {{ project.id }}</p>
+            <p class="d-title"> {{ project.name }}</p>
+            <p class="d_deadline"> Дедлайн: {{ project.deadline }}</p>
+        </div>
+    {% else %}
+		<div class="draggable fast my_project" data-url="{% url 'project_details' project.id %}" onclick="details(this)">
+            <p class="id"> {{ project.id }}</p>
+            <p class="d-title"> {{ project.name }}</p>
+            <p class="d_deadline"> Дедлайн: {{ project.deadline }}</p>
+        </div>
+    {% endif %}
+{% endfor %}
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-response" id="modal-response">
+
+        </div>
+    </div>
+</div>
+{% endblock %}

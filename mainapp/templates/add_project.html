@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load tags %}
+{% load static %}
+
+{% block content %}
+<div class="grand-title">
+    <div class="title">Проекты</div>
+    <div class="new">+</div>
+</div>
+{% for key,value in d.items %}
+<div class="container con{{ forloop.counter }}">
+    <div class="header"> {{ key }} </div>
+    <div class="count"> {{ value }} </div>
+    <hr class="he he{{ forloop.counter }}">
+    {% for el in all_projects|in_category:key %}
+    <div class="draggable">
+        <p class="id"> {{ el.id }}</p>
+        <p class="d-title"> {{ el.name }} </p>
+        <div class="curator">
+            <img src= "{{ el.curator.image.url }}">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endfor %}
+
+<form action="" method="POST">
+{% csrf_token %}
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <a href="{% url 'base' %}">
+            <span class="close">&times;</span>
+        </a>
+        <div class="block modal_title_block">
+            <p class="label">Название</p>
+            {{ form.name }}
+        </div>
+        <div>
+            <div class="block modal_status_block">
+                <p class="label">Статус</p>
+                <br>
+                {{ form.status }}
+            </div>
+            <div class="block modal_customer_block">
+                <p class="label label-rigth">Заказчик</p>
+                <br>
+                {{ form.customer_id }}
+            </div>
+        </div>
+        <div>
+            <div class="block modal_curator_block">
+                <p class="label">Куратор</p>
+                {{ form.curator }}
+            </div>
+            <div class="block modal_deadline_block">
+                <p class="label label-rigth">Дедлайн</p>
+                <br>
+                {{ form.deadline }}
+            </div>
+        </div>
+        <div class="block modal_desc_block">
+            <p class="label">Описание</p>
+            {{ form.description }}
+        </div>
+        <div class="butt">
+            <input type="submit" class="save_project" value="Сохранить">
+        </div>
+    </div>
+</div>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <script>
+      $(document).ready(function () {
+          $('.modal_status_form').change(function () {
+              $.ajax({
+                  data: $(this).serialize(),
+                  url: "{% url 'validate_status' %}",
+                  success: function (response) {
+                      $('.modal_curator_form').empty()
+                      $.each(response.data, function (id, first_name, last_name) {
+                          $('.modal_curator_form').append($('<option/>', {
+                              value: first_name.id,
+                              text : first_name.first_name +' '+ first_name.last_name
+                          }));
+                      });
+                  },
+                  error: function (response) {
+                      console.log(response.responseJSON.errors)
+                  }
+              });
+              return false;
+          });
+      })
+  </script>
+{% endblock content %}

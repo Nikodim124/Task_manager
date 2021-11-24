@@ -1,0 +1,80 @@
+{% load static %}
+{% load tags %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'styles/styles.css'%}" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Satisfy&display=swap" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="{% static 'js/dnd.js' %}" defer></script>
+	<title>Document</title>
+</head>
+<body>
+	<div class="nav">
+		<div class="user">
+			<img src="{{ user.employees.image.url }}" class="ava">
+			{{ user.employees.first_name }} {{ user.employees.last_name|slice:":1" }}.
+		</div>
+		<div class="icon_search">
+			<img src="{% static 'img/search.png' %}" class="icon search_icon">
+		</div>
+		<input id="search_here" class="form-control search" placeholder="Поиск проектов">
+		<a href="{% url 'logout' %}">
+			<div class="exit">
+				<img src="{% static 'img/exit.png' %}" class="icon exit_icon">
+			</div>
+		</a>
+	</div>
+	<div class="sidebar">
+		<ul>
+			{% with request.resolver_match.url_name as url_name %}
+		    <li>
+				<a href="{% url 'project_list' %}" class="{% if url_name == 'project_list' %}current{% endif %}">
+					<img src="{% static 'img/projects.png' %}" class="icon projects_icon">Проекты
+				</a>
+			</li>
+		    <li>
+				<a href="{% url 'employees' %}" class="{% if url_name == 'employees' %}current{% endif %}">
+					<img src="{% static 'img/emps.png' %}" class="icon emps_icon">Сотрудники
+				</a>
+			</li>
+		    {% if request.user.groups.all.0.name == 'Администрация' or request.user.groups.all.0.name == 'Менеджер' %}
+				<li>
+					<a href="{% url 'customers' %}" class="{% if url_name == 'customers' %}current{% endif %}">
+						<img src="{% static 'img/custs.png' %}" class="icon custs_icon">Заказчики
+					</a>
+				</li>
+		    	<li>
+					<a href="{% url 'contracts' %}" class="{% if url_name == 'contracts' %}current{% endif %}">
+						<img src="{% static 'img/cont_list.png' %}" class="icon cont_list_icon">Договоры
+					</a>
+				</li>
+			{% endif %}
+			{% if request.user.groups.all.0.name == 'Администрация' %}
+		    	<li>
+					<a href="{% url 'stats' %}" class="{% if url_name == 'stats' %}current{% endif %}">
+						<img src="{% static 'img/stats.png' %}" class="icon stats_icon">Отчёты
+					</a>
+				</li>
+			{% endif %}
+			{% if request.user.groups.all.0.name == 'Сотрудник' %}
+				<li>
+					<a href="{% url 'my_projects' %}" class="{% if url_name == 'my_projects' %}current{% endif %}">
+						<img src="{% static 'img/mytasks.png' %}" class="icon mytasks_icon">Мои задачи
+					</a>
+				</li>
+			{% endif %}
+			{% endwith %}
+		</ul>
+   	</div>
+   	<div class="content">
+		{% block content %}
+
+		{% endblock content %}
+    </div>
+</body>
+</html>

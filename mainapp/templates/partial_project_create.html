@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="form">
+    <form action="" method="POST">
+    {% csrf_token %}
+        <div class="block modal_title_block">
+            <p class="label">Название</p>
+            {% if request.user.groups.all.0.name == 'Сотрудник' %}
+                <p class="modal_title_form">{{ instance.name }}</p>
+                {{ form.name.as_hidden }}
+            {% else %}
+                {% if form.name.errors %}
+                    {{ form.name|add_class:"err" }}
+                {% else %}
+                    {{ form.name }}
+                {% endif %}
+            {% endif %}
+        </div>
+        <div>
+            <div class="block modal_status_block">
+                <p class="label">Статус</p>
+                <br>
+                <p id="st_status" data-url="{% url 'validate_status' %}">
+                    {{ form.status }}
+                </p>
+            </div>
+            <div class="block modal_customer_block">
+                <p class="label label-rigth">Заказчик</p>
+                <br>
+                {% if request.user.groups.all.0.name == 'Сотрудник' %}
+                    <p class="modal_customer_form">{{ instance.customer_id }}</p>
+                    {{ form.customer_id.as_hidden }}
+                {% else %}
+                    {% if form.customer_id.errors %}
+                        {{ form.customer_id|add_class:"err" }}
+                    {% else %}
+                        {{ form.customer_id }}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <div class="block modal_curator_block">
+                <p class="label">Куратор</p>
+                <p id="curator_field">{{ form.curator }}</p>
+            </div>
+            <div class="block modal_deadline_block">
+                <p class="label label-rigth">Дедлайн</p>
+                <br>
+                {% if request.user.groups.all.0.name == 'Сотрудник' %}
+                    <p class="modal_deadline_form">{{ instance.deadline }}</p>
+                    {{ form.deadline.as_hidden }}
+                {% else %}
+                    {% if form.deadline.errors %}
+                        {{ form.deadline|add_class:"err" }}
+                    {% else %}
+                        {{ form.deadline }}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="block modal_budget_block">
+            <p class="label">Бюджет</p>
+            <br>
+            {% if request.user.groups.all.0.name == 'Сотрудник' %}
+                <p class="modal_budget_form">{{ instance.budget }}</p>
+                {{ form.budget.as_hidden }}
+            {% else %}
+                {% if form.budget.errors %}
+                    {{ form.budget|add_class:"err" }}
+                {% else %}
+                    {{ form.budget }}
+                {% endif %}
+            {% endif %}
+        </div>
+        <div class="block modal_desc_block">
+            <p class="label">Описание</p>
+            {% if request.user.groups.all.0.name == 'Сотрудник' %}
+                <p class="modal_desc_form">{{ instance.description }}</p>
+                {{ form.description.as_hidden }}
+            {% else %}
+                {{ form.description }}
+            {% endif %}
+        </div>
+        <input type="submit" class="save_project" value="Сохранить">
+    </form>
+</div>
+{% endblock %}

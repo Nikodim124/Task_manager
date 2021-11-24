@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+
+<div class="grand-title">
+    <div class="title">Статистика</div>
+</div>
+
+<div class="filters">
+    <img src="{% static 'img/filters.png' %}" class="icon filter_icon">Фильтр
+    <input class="modal_deadline_form" id="start_date" type="date">
+    <input class="modal_deadline_form" id="end_date" type="date">
+    <button class="f_butt" id="filtered">Вперед</button>
+</div>
+<br>
+<div class="chart_container">
+    <canvas id="budget_chart"></canvas>
+</div>
+<div class="chart_container">
+    <canvas id="project_chart"></canvas>
+</div>
+<div class="chart_container last_chart">
+    <canvas id="type_chart"></canvas>
+</div>
+
+<script>
+var bctx = document.getElementById('budget_chart');
+var pctx = document.getElementById('project_chart');
+var tctx = document.getElementById('type_chart');
+var date_list = [];
+var amount_list = [];
+var count_list = [];
+var types = [];
+var counts = [];
+
+$('#filtered').click(function () {
+    $.ajax({
+        type: 'GET',
+            url: 'stats_data',
+            data: {
+                sd: $('input[id=start_date]').val(),
+                ed: $('input[id=end_date]').val()
+            },
+            success: function (data) {
+                date_list = data.date_list;
+                amount_list = data.amount_list;
+                count_list = data.count_list;
+                types = data.types;
+                counts = data.counts;
+                budget_chart.destroy();
+                project_chart.destroy();
+                type_chart.destroy();
+                draw();
+            },
+            error: function(data) {
+                console.log('error');
+            }
+        });
+    });
+
+var draw = function() {
+    budget_chart = new Chart(bctx, {
+        type: 'bar',
+        data: {
+            labels: date_list,
+            datasets: [{
+                label: 'Общий бюджет проектов',
+                data: amount_list,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                ],
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }]
+            },
+        }
+    });
+    project_chart = new Chart(pctx, {
+        type: 'line',
+        data: {
+            labels: date_list,
+            datasets: [{
+                label: 'Количество проектов',
+                data: count_list,
+                backgroundColor: [
+                    'rgba(194, 254, 246, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 183, 0, 0.9)',
+                ],
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }]
+            },
+        }
+    });
+    type_chart = new Chart(tctx, {
+        type: 'pie',
+        data: {
+            labels: types,
+            datasets: [{
+                label: 'Тип проектов',
+                data: counts,
+                backgroundColor: [
+                    'rgba(184, 255, 183, 1)',
+                    'rgba(65, 139, 202, 1)',
+                    'rgba(66, 210, 185, 1)',
+                    'rgba(141, 68, 173, 1)',
+                ],
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    display: true,
+                    ticks: {
+                        beginAtZero: true,
+                    }
+                }]
+            },
+        }
+    });
+};
+
+$(document).ready(function() {
+  $.ajax({
+    type: 'GET',
+    url: 'stats_data',
+    success: function (data) {
+      date_list = data.date_list;
+      amount_list = data.amount_list;
+      count_list = data.count_list;
+      types = data.types;
+      counts = data.counts;
+      draw();
+    }
+  });
+});
+</script>
+{% endblock content %}

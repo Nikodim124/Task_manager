@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form">
+    <form action="" method="POST" class="">
+    {% csrf_token %}
+        <div class="question">Вы дейстительно хотите переместить проект <span class="accent">{{ project.name }}</span>
+            от компании <span class="accent">{{ project.customer_id }}</span> в Архив и удалить его?</div>
+        <input type="submit" class="delete_project" value="Переместить">
+        <a class="cancel" href="{% url 'project_list' %}">Отмена</a>
+    </form>
+</div>
+{% endblock %}

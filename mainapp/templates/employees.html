@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="grand-title">
+        <div class="title">Сотрудники</div>
+    </div>
+{% for key,value in di.items %}
+    <div class="otdel">
+        <div class="otdel-title">{{ key }}</div>
+        {% for el in value %}
+            {% for emp,cnt in el.items %}
+            <div class="emp" data-url="{% url 'emp_details' emp.id %}" onclick="details(this)">
+                <div class="photo">
+                    <img src="{{ emp.image.url }}" class="avatar">
+                </div>
+                <div class="about-emp">
+                    <div class="name"> {{ emp.first_name }} {{ emp.last_name }}</div>
+                    <div class="post">{{ emp.post }}</div>
+                </div>
+                <div class="count-projects">
+                    <div>Проектов: </div>
+                    <div>{{ cnt }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endfor %}
+
+<div id="myModal" class="modal">
+    <div class="modal-content emp-content">
+        <div class="modal-response" id="modal-response">
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

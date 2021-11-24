@@ -1,0 +1,67 @@
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<style>
+    @page {
+        size: a4 portrait;
+        @frame content_frame {
+            left: 50pt; width: 512pt; top: 30pt; height: 732pt;
+        }
+        @frame footer_frame {
+            -pdf-frame-content: footer_content;
+            left: 50pt; width: 412pt; top: 802pt; height: 20pt;
+        }
+    }
+    @font-face {
+    	font-family: Arial;
+    	src: url("C:/Windows/Fonts/Arial.ttf");
+    }
+    body {
+    	font-size: 12px;
+    	font-family: Arial;
+    }
+	</style>
+</head>
+
+<body>
+    <div style="font-size: 16px; font-weight: bold; text-align: center">
+    	<h3>Акт выполненных услуг</h3>
+    </div>
+	<div style="text-align: right; margin-bottom: 20px;">{% now 'd N Y' %}</div>
+	<div style="text-indent: 15px; margin-bottom: 10px;">Исполнитель {{ company }}, ответственное лицо: {{ dir }}</div>
+    <div style="text-indent: 15px; margin-bottom: 10px;">Заказчик {{ customer }}, ответственное лицо: {{ customer_dir }}</div>
+	<table border="1">
+        <tr>
+            <th style="padding: 5px;">№</th>
+            <th>Наименование услуги</th>
+        </tr>
+		{% for task in tasks %}
+		<tr>
+			<td style="text-align: center; padding: 5px; width: 150px;">{{ forloop.counter }}.</td>
+			<td style="text-align: center;">{{ task.name }}</td>
+		</tr>
+		{% endfor %}
+    </table>
+
+	<div style="text-indent: 15px; margin-top: 20px; margin-bottom: 10px;">Всего оказано услуг на сумму {{ budget }} руб.</div>
+	<div style="text-indent: 15px; margin-bottom: 60px;">Вышеперечисленные услуги выполнены полностью и в срок. Заказчик претензий по объёму, качеству
+	и срокам оказания услуг не имеет.</div>
+
+	<table width="100%" cellspacing="0" cellpadding="5">
+		<tr>
+			<td width="60%" valign="top" style="margin-left: 50px">Заказчик</td><td valign="top" style="margin-left: 50px">Исполнитель</td>
+		</tr>
+		<tr>
+			<td width="60%" valign="top">Подпись: _______________</td><td valign="top">Подпись: _______________</td>
+		</tr>
+		<tr>
+			<td width="60%" valign="top">Директор: {{ customer_dir }}</td><td valign="top">Директор: {{ dir }}</td>
+		</tr>
+	</table>
+
+	<div id="footer_content">Стр. <pdf:pagenumber>
+        из <pdf:pagecount>
+	</div>
+
+</body>
+</html>

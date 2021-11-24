@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="grand-title">
+        <div class="title">Договоры</div>
+        <div id='new' class="new">+</div>
+    </div>
+
+<div class="cust-title">
+    <div>Проект</div>
+    <div>Дата</div>
+    <div>Дедлайн</div>
+    <div>Бюджет</div>
+    <div>Статус</div>
+    <div>Действие</div>
+</div>
+{% for el in di %}
+    {% for cont,status in el.items %}
+        <div class="cont">
+	    	<span>{{ cont.name }}</span>
+	    	<span>{{ cont.date }}</span>
+	    	<span>{{ cont.deadline }}</span>
+	    	<span>{{ cont.budget }}</span>
+	    	<span>
+                {% if status == 'В работе' %}
+	    		<p id="status">{{ status }}</p>
+                {% endif %}
+                {% if status == 'Готово' %}
+	    		<p id="status_done">{{ status }}</p>
+                {% endif %}
+	    	</span>
+            <span id="actions">
+	    		<div title="Договор">
+                    <a href="{{ cont.contract.url }}" target="_blank">
+                        <img src="{% static 'img/contract.png' %}" class="icon mini_icon contract_icon">
+                    </a>
+                </div>
+	    		{% if status == 'Готово' %}
+	    		<div title="Акт работ">
+                    <a href="{{ cont.act.url }}" target="_blank">
+                        <img src="{% static 'img/act.png' %}" class="icon mini_icon act_icon">
+                    </a>
+                </div>
+                {% endif %}
+	    	</span>
+	    </div>
+    {% endfor %}
+{% endfor %}
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="contract_title">Выберите проект для создания договора:</div>
+        <form method="POST" target="_blank">
+            {% csrf_token %}
+            <select name="potential_contract" class="modal_contract_form">
+                {% for pot in potentials %}
+                <option value="{{ pot.id }}"> {{ pot.name }} </option>
+                {% endfor %}
+            </select>
+            <input type="submit" class="save_project button_save" value="Создать договор" onclick="foo(this);">
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/search.js' %}" defer></script>
+{% endblock content %}

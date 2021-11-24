@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load tags %}
+{% load static %}
+
+{% block content %}
+    <div class="grand-title">
+        <div class="title">Проекты</div>
+        {% if request.user.groups.all.0.name == 'Администрация' or request.user.groups.all.0.name == 'Менеджер' %}
+            <a class='new' href="{% url 'project_create' %}">+</a>
+        {% endif %}
+    </div>
+  <div class="potrr">
+
+  </div>
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-response" id="modal-response">
+
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/project_all.js' %}" defer></script>
+<script src="{% static 'js/search.js' %}" defer></script>
+
+{% endblock %}

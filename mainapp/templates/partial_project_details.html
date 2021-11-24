@@ -1,0 +1,74 @@
+{% load static %}
+<div class="block modal_title_block">
+    <p id="modal_id" style="display: none"> {{ id }} </p>
+    <p class="label">Название</p>
+    <p class="modal_title"> {{ name }} </p>
+</div>
+<div class="block modal_status_block">
+    <p class="label">Статус</p>
+    <br>
+    <p class="modal_side modal_status"> {{ status }}</p>
+</div>
+<div class="block modal_customer_block">
+    <p class="label label-rigth">Заказчик</p>
+    <br>
+    <p class="modal_side modal_customer"> {{ customer }} </p>
+</div>
+<div style="background-color: #fff;">
+    <div class="block modal_curator_block">
+        <p class="label">Куратор</p>
+        <span>
+            <img src="{{ curator.image.url }}">
+            <p class="modal_side modal_curator"> {{ curator }}</p>
+        </span>
+    </div>
+    <div class="block modal_deadline_block">
+        <p class="label label-rigth">Дедлайн</p>
+        <br>
+        <p class="modal_side modal_deadline"> {{ deadline }}</p>
+    </div>
+</div>
+<div class="block modal_budget_block">
+    <p class="label">Бюджет</p>
+    <p class="modal_budg">{{ budget }}</p>
+</div>
+<div class="block modal_desc_block">
+    <p class="label">Описание</p>
+    <p class="modal_desc">{{ description }}</p>
+</div>
+<div class="block modal_tasks">
+    <p class="label">Задачи</p>
+    <br>
+    {% for task in tasks %}
+    <div class="tasks">
+        <p class="task_count">{{ forloop.counter }}.</p>
+        <p class="task_title">{{ task.name }}</p>
+    </div>
+    {% endfor %}
+    <a class="addtask" href="{% url 'create_tasks' %}?pk={{id}}">+ добавить задачи</a>
+</div>
+{% for com in comments %}
+<div class="block modal_comments">
+    <span class="com_ava">
+        <img src="{{ com.emp_id.image.url }}">
+        <p class="com_name"> {{ com.emp_id }}</p>
+        <p class="com_date">{{ com.date }}</p>
+    </span>
+    <p class="com_text"> {{ com.comment }} </p>
+</div>
+{% endfor %}
+<form action="{% url 'project_details' id %}" method="POST"  class="block modal_com_field">
+    {% csrf_token %}
+    <span class="com_ava">
+        <img src="{{ user.employees.image.url }}">
+    </span>
+    <p style="display: none">{{ form.project_id }}</p>
+    <p style="display: none">{{ form.emp_id }}</p>
+    {{ form.comment }}
+    <input name="submit" id="save_com" type="image" src="{% static 'img/send.png'%}">
+</form>
+{% if status == 'Согласование' %}
+    <a href="{% url 'send_to_archive' %}?pk={{id}}" class="done">Выполнено</a>
+{% endif %}
+<a href="{% url 'project_create' %}?p_id={{id}}" class="change">Изменить</a>
+<a href="{% url 'project_delete' id %}" class="delet">Удалить</a>

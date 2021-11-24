@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title>Система Maugry</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css'%}" type="text/css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Satisfy&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="bak">
+		<h2>Maugry</h2>
+		<form method="POST" action="">
+			{% csrf_token %}
+			<span class="span1">ЛОГИН</span>
+			{{ form.username }}
+			<span class="span2">ПАРОЛЬ</span>
+			{{ form.password }}
+			<input class="inp3" name="submit" id="submit" type="image" src="{% static 'img/exec.png'%}" alt="Submit">
+        </form>
+	</div>
+</body>
+</html>

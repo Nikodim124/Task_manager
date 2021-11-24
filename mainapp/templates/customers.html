@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="grand-title">
+        <div class="title">Заказчики</div>
+        <a class='new' href="{% url 'add_customer' %}">+</a>
+    </div>
+
+<div class="cust-title">
+    <div>Заказчик</div>
+    <div>Директор</div>
+    <div>Телефон</div>
+    <div>Почта</div>
+    <div>Статус</div>
+</div>
+{% for el in di %}
+    {% for cust,status in el.items %}
+        <div class="cust" data-url="{% url 'customer_details' cust.id %}" onclick="details(this)">
+	    	<span>{{ cust.name }}</span>
+	    	<span>{{ cust.director }}</span>
+	    	<span>{{ cust.phone }}</span>
+	    	<span>{{ cust.email }}</span>
+	    	<span>
+                {% if status == 'Активен' %}
+	    		<p id="status_done">{{ status }}</p>
+                {% endif %}
+	    	</span>
+	    </div>
+    {% endfor %}
+{% endfor %}
+
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-response" id="modal-response">
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
