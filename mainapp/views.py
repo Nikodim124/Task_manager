@@ -3,7 +3,7 @@ from datetime import date
 
 from django.core.files.base import ContentFile
 from django.db.models import Sum, Count, Q
-from django.db.models.functions import  ExtractMonth
+from django.db.models.functions import ExtractMonth
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string, get_template
@@ -93,7 +93,7 @@ def project_details(request, pk):
     di = dict()
     project = Projects.objects.filter(id=pk)
     p = Projects.objects.get(id=pk)
-    u = request.user.id - 1
+    u = request.user.id
     tasks = Tasks.objects.filter(project_id=pk)
     comms = Comments.objects.filter(project_id=pk)
     com_ar = []
@@ -118,6 +118,7 @@ def project_details(request, pk):
     data['budget'] = project[0].budget
     data['tasks'] = task_ar
     data['comments'] = com_ar
+    data['u'] = Employees.objects.get(id=u)
     form = CommentForm(request.POST or None, initial={'project_id': p, 'emp_id': u})
     data['form'] = form
     if request.method == "POST":
@@ -173,7 +174,6 @@ def send_to_archive(request):
         }
         pdf = render_act('act_template.html', data, p)
         project.delete()
-        #return HttpResponse(pdf, content_type='application/pdf')
         return redirect('project_list')
     return render(request, 'project_done.html', {'project': project})
 
@@ -238,6 +238,7 @@ def contract_view(request):
         return redirect('project_list')
     di = []
     all_contracts = Projects.objects.all().exclude(contract='')
+    company = Company.objects.all()
     all_archives = Archive.objects.all().order_by('-date')
     potentials = Projects.objects.all().filter(contract='')
     if request.method == 'POST':
@@ -251,7 +252,7 @@ def contract_view(request):
         data = {}
         data[arch] = 'Готово'
         di.append(data)
-    return render(request, 'contracts.html', {'di': di, 'potentials': potentials})
+    return render(request, 'contracts.html', {'company': company, 'di': di, 'potentials': potentials})
 
 
 @login_required
@@ -321,7 +322,7 @@ def add_customer(request):
 @login_required
 def my_projects(request):
     today = date.today() + datetime.timedelta(days=8)
-    u = request.user.id - 1
+    u = request.user.id
     projects = Projects.objects.all().filter(curator_id=u)
     return render(request, 'my_projects.html', {'today': today, 'projects': projects})
 
@@ -330,6 +331,8 @@ def my_projects(request):
 def validate_status(request):
     status = request.GET.get('status', None)
     li = Employees.objects.filter(post__department=status).values('id', 'first_name', 'last_name')
+    for el in li:
+        el['project_count'] = Projects.objects.filter(curator=el['id']).count()
     return JsonResponse({'data': list(li)})
 
 
