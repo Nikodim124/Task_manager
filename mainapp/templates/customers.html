@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
+{% load tags %}
+{% load static %}
+
+{% block search %}
+<input id="customer_search" class="form-control search" placeholder="Поиск заказчиков">
+{% endblock search %}
+
 {% block content %}
     <div class="grand-title">
         <div class="title">Заказчики</div>
@@ -16,7 +23,7 @@
 {% for el in di %}
     {% for cust,status in el.items %}
         <div class="cust" data-url="{% url 'customer_details' cust.id %}" onclick="details(this)">
-	    	<span>{{ cust.name }}</span>
+	    	<span id="cust_name">{{ cust.name }}</span>
 	    	<span>{{ cust.director }}</span>
 	    	<span>{{ cust.phone }}</span>
 	    	<span>{{ cust.email }}</span>
@@ -29,7 +36,7 @@
     {% endfor %}
 {% endfor %}
 
-<div id="myModal" class="modal">
+<div id="myModal" class="modalist">
     <div class="modal-content">
         <div class="modal-response" id="modal-response">
 
@@ -37,4 +44,5 @@
     </div>
 </div>
 
+<script src="{% static 'js/search.js' %}" defer></script>
 {% endblock content %}

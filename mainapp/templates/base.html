@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Satisfy&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 	<script src="{% static 'js/dnd.js' %}" defer></script>
 	<title>Document</title>
 </head>
@@ -22,7 +24,9 @@
 		<div class="icon_search">
 			<img src="{% static 'img/search.png' %}" class="icon search_icon">
 		</div>
-		<input id="search_here" class="form-control search" placeholder="Поиск проектов">
+		{% block search %}
+			<input id="search_here" class="form-control search" placeholder=" " disabled>
+		{% endblock search %}
 		<a href="{% url 'logout' %}">
 			<div class="exit">
 				<img src="{% static 'img/exit.png' %}" class="icon exit_icon">

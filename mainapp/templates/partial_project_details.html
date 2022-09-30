@@ -47,6 +47,7 @@
     {% endfor %}
     <a class="addtask" href="{% url 'create_tasks' %}?pk={{id}}">+ добавить задачи</a>
 </div>
+{% if request.user.groups.all.0.name != 'Администрация' %}
 {% for com in comments %}
 <div class="block modal_comments">
     <span class="com_ava">
@@ -67,8 +68,13 @@
     {{ form.comment }}
     <input name="submit" id="save_com" type="image" src="{% static 'img/send.png'%}">
 </form>
+{% endif %}
 {% if status == 'Согласование' %}
     <a href="{% url 'send_to_archive' %}?pk={{id}}" class="done">Выполнено</a>
 {% endif %}
-<a href="{% url 'project_create' %}?p_id={{id}}" class="change">Изменить</a>
-<a href="{% url 'project_delete' id %}" class="delet">Удалить</a>
+{% if curator == u %}
+    <a href="{% url 'project_create' %}?p_id={{id}}" class="change">Изменить</a>
+{% endif %}
+{% if request.user.groups.all.0.name == 'Менеджер' or request.user.groups.all.0.name == 'Администрация'%}
+    <a href="{% url 'project_delete' id %}" class="delet">Удалить</a>
+{% endif %}

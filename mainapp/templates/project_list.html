@@ -3,6 +3,10 @@
 {% load tags %}
 {% load static %}
 
+{% block search %}
+    <input id="search_here" class="form-control search" placeholder="Поиск проектов">
+{% endblock search %}
+
 {% block content %}
     <div class="grand-title">
         <div class="title">Проекты</div>
@@ -14,7 +18,7 @@
 
   </div>
 
-<div id="myModal" class="modal">
+<div id="myModal" class="modalist">
     <div class="modal-content">
         <div class="modal-response" id="modal-response">
 

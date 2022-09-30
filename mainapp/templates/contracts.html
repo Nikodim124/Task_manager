@@ -1,8 +1,33 @@
 {% extends 'base.html' %}
+
+{% load tags %}
 {% load static %}
+
+{% block search %}
+<input id="contract_search" class="form-control search" placeholder="Поиск договоров">
+{% endblock search %}
+
 {% block content %}
+<!--
+<div id="ex1" class="modal" style="height: 50%">
+    {% for el in company %}
+    <span class="company_text"> Название: {{ el.name }}</span>
+    <span class="company_text"> Юр. адрес: {{ el.ur_address }}</span>
+    <span class="company_text"> Физ. адрес: {{ el.fys_address }}</span>
+    <span class="company_text"> Директор: {{ el.director }}</span>
+    <span class="company_text"> ИНН: {{ el.inn }}</span>
+    <span class="company_text"> КПП: {{ el.kpp }}</span>
+    <span class="company_text"> р/с: {{ el.bill_acc }}</span>
+    <span class="company_text"> БИК: {{ el.bik }}</span>
+    {% endfor %}
+    <a href="#" id="ex1_close" rel="modal:close" hidden>Close</a>
+</div>
+-->
     <div class="grand-title">
         <div class="title">Договоры</div>
+        {% if request.user.groups.all.0.name == 'Администрация' %}
+        <!--<div class="company_info"><a href="#ex1" rel="modal:open">Инфо</a></div>-->
+        {% endif %}
         <div id='new' class="new">+</div>
     </div>
 
@@ -17,7 +42,7 @@
 {% for el in di %}
     {% for cont,status in el.items %}
         <div class="cont">
-	    	<span>{{ cont.name }}</span>
+	    	<span id="cont_name">{{ cont.name }}</span>
 	    	<span>{{ cont.date }}</span>
 	    	<span>{{ cont.deadline }}</span>
 	    	<span>{{ cont.budget }}</span>
@@ -47,7 +72,7 @@
     {% endfor %}
 {% endfor %}
 
-<div id="myModal" class="modal">
+<div id="myModal" class="modalist">
     <div class="modal-content">
         <div class="contract_title">Выберите проект для создания договора:</div>
         <form method="POST" target="_blank">
